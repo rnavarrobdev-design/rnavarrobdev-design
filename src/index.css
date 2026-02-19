@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  :target {
+    scroll-margin-top: 80px;
+  }
+}
+
+/* Configuración para Tailwind v4 para que reconozca la clase .dark */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Color del cursor de la máquina de escribir */
+.Typewriter__cursor {
+  color: #7dd3fc; /* sky-300 */
+  font-weight: 200;
+}
+
+/* Ajuste para el cursor en modo oscuro */
+.dark .Typewriter__cursor {
+  color: #60a5fa; /* blue-400 */
+}
+/* Filtro para convertir iconos a color Celeste (Sky-400) */
+.filter-sky-400 {
+  filter: invert(74%) sepia(54%) saturate(423%) hue-rotate(174deg) brightness(101%) contrast(97%);
+}
