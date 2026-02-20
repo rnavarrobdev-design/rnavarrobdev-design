@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion"; // Añadido "motion" aquí
+import { AnimatePresence, motion } from "framer-motion";
+import { HelmetProvider } from "react-helmet-async"; // Solo el Provider, Helmet ya está en Seo.jsx
+import Seo from "./components/Seo";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -23,7 +25,7 @@ function App() {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // Simulación de carga
+  // Simulación de carga para el Preloader
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 2500);
     return () => clearTimeout(timer);
@@ -34,30 +36,36 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 transition-colors duration-500">
-      <AnimatePresence mode="wait">
-        {loading && <Preloader key="loader" />}
-      </AnimatePresence>
+    <HelmetProvider>
+      <div className="min-h-screen bg-white dark:bg-slate-950 transition-colors duration-500">
+        
+        {/* Componente SEO centralizado */}
+        <Seo />
 
-      {!loading && (
-        <motion.div 
-          key="main-content"
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          transition={{ duration: 1 }}
-        >
-          <Navbar toggleTheme={toggleTheme} theme={theme} />
-          <main>
-            <Hero />
-            <About />
-            <Skills />
-            <Projects />
-            <Contact />
-          </main>
-          <Footer />
-        </motion.div>
-      )}
-    </div>
+        <AnimatePresence mode="wait">
+          {loading && <Preloader key="loader" />}
+        </AnimatePresence>
+
+        {!loading && (
+          <motion.div 
+            key="main-content"
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            transition={{ duration: 1 }}
+          >
+            <Navbar toggleTheme={toggleTheme} theme={theme} />
+            <main>
+              <Hero />
+              <About />
+              <Skills />
+              <Projects />
+              <Contact />
+            </main>
+            <Footer />
+          </motion.div>
+        )}
+      </div>
+    </HelmetProvider>
   );
 }
 
